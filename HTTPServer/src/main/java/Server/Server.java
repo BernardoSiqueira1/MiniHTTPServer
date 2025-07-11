@@ -1,18 +1,19 @@
 package Server;
 
-import HTTPHandlers.ConfigClasses.ChainConfiguration;
-import HTTPHandlers.HTTPHandlerChain;
+import Components.ServerChainConfiguration.ChainConfiguration;
+import Components.HTTPHandlerChain;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Application extends ServerSocket {
+public class Server extends ServerSocket {
 
-    private ChainConfiguration chainConfiguration;
+    private final ChainConfiguration chainConfiguration;
 
-    public Application(int applicationPort) throws IOException {
+    public Server(int applicationPort, ChainConfiguration httpHandlerChainConfiguration) throws IOException {
         super(applicationPort);
+        this.chainConfiguration = httpHandlerChainConfiguration;
     }
 
     public void listen() {
@@ -20,7 +21,7 @@ public class Application extends ServerSocket {
 
             try {
                 Socket clientConnection = this.accept();
-                Thread newClientThread = new Thread(new HTTPHandlerChain(chainConfiguration, clientConnection));
+                new Thread(new HTTPHandlerChain(chainConfiguration, clientConnection)).start();
             }
 
             catch (IOException ioException){

@@ -1,15 +1,17 @@
 package Application;
 
-import Server.Application;
+import Components.ServerChainConfiguration.ChainConfiguration;
+import Components.ServerChainConfiguration.Default.DefaultChainConfiguration;
+import Server.Server;
 
 import java.io.IOException;
 
 public class MainApplication {
 
     public static void main(String[] args) throws IOException {
+        ChainConfiguration httpChainConfiguration = DefaultChainConfiguration.getDefaultChainConfiguration();
 
-        System.out.println("Iniciando escuta na porta 8080");
-        Application HTTPApp = new Application(8080);
+        Server HTTPApp = new Server(8080, httpChainConfiguration);
         HTTPApp.listen();
 
     }
