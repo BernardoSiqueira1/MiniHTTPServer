@@ -1,6 +1,8 @@
 package server.model.request;
 
+import java.util.HashMap;
+
 public record RequestHeaders(
-        String[] requestHeaders
+        HashMap<String,String> requestHeaders
 ) {
 }
