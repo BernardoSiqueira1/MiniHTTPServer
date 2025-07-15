@@ -1,9 +1,10 @@
 package server.handler;
 
 import server.model.request.ClientRequestObject;
+import server.model.response.ClientResponseObject;
 
 public interface RequestHandler {
 
-    public void handleClientRequest(ClientRequestObject clientRequestObject);
+    public void handleRequest(ClientRequestObject clientRequestObject, ClientResponseObject clientResponseObject);
 
 }
