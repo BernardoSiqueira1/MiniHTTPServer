@@ -1,7 +1,7 @@
 package server;
 
-import server.configuration.ChainConfiguration;
-import server.httpchain.DefaultHTTPHandlerChain;
+import server.configuration.HandlerChainConfiguration;
+import server.httpchain.HTTPHandlerChain;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -9,11 +9,11 @@ import java.net.Socket;
 
 public class Server extends ServerSocket {
 
-    private final ChainConfiguration chainConfiguration;
+    private final HandlerChainConfiguration handlerChainConfiguration;
 
-    public Server(int applicationPort, ChainConfiguration httpHandlerChainConfiguration) throws IOException {
+    public Server(int applicationPort, HandlerChainConfiguration httpHandlerChainConfiguration) throws IOException {
         super(applicationPort);
-        this.chainConfiguration = httpHandlerChainConfiguration;
+        this.handlerChainConfiguration = httpHandlerChainConfiguration;
     }
 
     public void listen() {
@@ -21,12 +21,13 @@ public class Server extends ServerSocket {
 
             try {
                 Socket clientConnection = this.accept();
-                new Thread(new DefaultHTTPHandlerChain(chainConfiguration, clientConnection)).start();
+                new Thread(new HTTPHandlerChain(handlerChainConfiguration, clientConnection)).start();
             }
 
             catch (IOException ioException){
                 System.out.println("Falha na conexão");
             }
+
         }
     }
 
