@@ -1,7 +1,7 @@
 package app;
 
-import server.configuration.ChainConfiguration;
-import server.configuration.DefaultChainConfiguration;
+import server.configuration.HandlerChainConfiguration;
+import server.configuration.DefaultHandlerChainConfiguration;
 import server.Server;
 
 import java.io.IOException;
@@ -9,11 +9,9 @@ import java.io.IOException;
 public class MainApplication {
 
     public static void main(String[] args) throws IOException {
-        ChainConfiguration httpChainConfiguration = DefaultChainConfiguration.getDefaultChainConfiguration();
-
+        HandlerChainConfiguration httpChainConfiguration = DefaultHandlerChainConfiguration.getDefaultChainConfiguration();
         Server HTTPApp = new Server(8080, httpChainConfiguration);
         HTTPApp.listen();
-
     }
 
 }
