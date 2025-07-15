@@ -1,7 +1,9 @@
 package server.model.response;
 
-public class ClientResponseObject {
+import java.util.HashMap;
 
-
-
-}
+public record ClientResponseObject(
+        ResponseLine responseLine,
+        ResponseHeaders responseHeaders,
+        ResponseBody responseBody
+) {}
