@@ -1,4 +1,4 @@
-package server.parser;
+package server.parser.request;
 
 import server.model.request.ClientRequestObject;
 import server.model.request.RequestBody;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class RequestParser {
+public final class RequestParser {
 
 
     public ClientRequestObject parse(InputStream clientInputStream) throws IOException {
@@ -27,10 +27,9 @@ public class RequestParser {
             }
         }
 
-        System.out.println(fullRequest);
         RequestLine requestLine = RequestLineParser.parse(fullRequest.toString());
-        RequestHeaders requestHeaders = null;
-        RequestBody requestBody = null;
+        RequestHeaders requestHeaders = RequestHeaderParser.parse(fullRequest.toString());
+        RequestBody requestBody = RequestBodyParser.parse(fullRequest.toString());
 
         return null;
     }

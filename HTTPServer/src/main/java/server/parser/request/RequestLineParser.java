@@ -1,10 +1,10 @@
-package server.parser;
+package server.parser.request;
 
 import server.model.request.RequestLine;
 
 import java.util.HashMap;
 
-public class RequestLineParser {
+public final class RequestLineParser {
 
     public static RequestLine parse(String fullRequest){
 
@@ -38,16 +38,28 @@ public class RequestLineParser {
 
     private static HashMap<String, String> extractQueryParams(String fullRequestPath){
         HashMap<String, String> queryParams = new HashMap();
-        String[] arrayOfQueryParams = fullRequestPath.split("\\?")[1].split("&");
+        String[] arrayOfQueryParams;
 
-        for(int index = 0; index < arrayOfQueryParams.length; ++index) {
-            String[] keyValuePair = arrayOfQueryParams[index].split("=");
+        try {
+            arrayOfQueryParams = fullRequestPath.split("\\?")[1].split("&");
+        }
+
+        catch(ArrayIndexOutOfBoundsException exception) {
+            return null;
+        }
+
+        for (String queryParam : arrayOfQueryParams) {
+
+            String[] keyValuePair = queryParam.split("=");
 
             try {
                 queryParams.put(keyValuePair[0], keyValuePair[1]);
-            } catch (ArrayIndexOutOfBoundsException exception) {
-                System.out.println(exception.getMessage());
             }
+
+            catch (ArrayIndexOutOfBoundsException exception) {
+                continue;
+            }
+            //TODO - Encontrar um jeito melhor de lidar com valores nulos.
         }
 
         System.out.println(queryParams);
