@@ -12,7 +12,7 @@ import java.util.Scanner;
 public final class RequestParser {
 
 
-    public ClientRequestObject parse(InputStream clientInputStream) throws IOException {
+    public static ClientRequestObject parse(InputStream clientInputStream) throws IOException {
 
         StringBuilder fullRequest = new StringBuilder();
         Scanner inputScanner = new Scanner(clientInputStream).useDelimiter("\\A");
@@ -31,7 +31,7 @@ public final class RequestParser {
         RequestHeaders requestHeaders = RequestHeaderParser.parse(fullRequest.toString());
         RequestBody requestBody = RequestBodyParser.parse(fullRequest.toString());
 
-        return null;
+        return new ClientRequestObject(requestLine, requestHeaders, requestBody);
     }
 
 }
