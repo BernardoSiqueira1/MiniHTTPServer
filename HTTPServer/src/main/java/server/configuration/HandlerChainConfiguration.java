@@ -1,6 +1,6 @@
 package server.configuration;
 
-import server.handler.RequestHandler;
+import server.filterhandlers.RequestHandler;
 
 import java.util.ArrayList;
 import java.util.List;

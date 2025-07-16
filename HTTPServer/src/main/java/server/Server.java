@@ -2,26 +2,39 @@ package server;
 
 import server.configuration.HandlerChainConfiguration;
 import server.httpchain.HTTPHandlerChain;
+import server.service.RequestServiceDispatcher;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends ServerSocket {
+public final class Server extends ServerSocket {
 
-    private final HandlerChainConfiguration handlerChainConfiguration;
+    private HandlerChainConfiguration handlerChainConfiguration;
+    private RequestServiceDispatcher requestServiceDispatcher;
+    private final int applicationPort;
 
-    public Server(int applicationPort, HandlerChainConfiguration httpHandlerChainConfiguration) throws IOException {
+    public Server(int applicationPort) throws IOException {
         super(applicationPort);
-        this.handlerChainConfiguration = httpHandlerChainConfiguration;
+        this.applicationPort = applicationPort;
+    }
+
+    public void setHandlerChainConfiguration(HandlerChainConfiguration handlerChainConfiguration){
+        this.handlerChainConfiguration = handlerChainConfiguration;
+    }
+
+    public void setServiceDispatcher(RequestServiceDispatcher requestServiceDispatcher){
+        this.requestServiceDispatcher = requestServiceDispatcher;
     }
 
     public void listen() {
+        System.out.println(String.format("Starting server at port %d", applicationPort));
+
         while (true) {
 
             try {
                 Socket clientConnection = this.accept();
-                new Thread(new HTTPHandlerChain(handlerChainConfiguration, clientConnection)).start();
+                new Thread(new HTTPHandlerChain(handlerChainConfiguration, requestServiceDispatcher, clientConnection)).start();
             }
 
             catch (IOException ioException){
@@ -29,10 +42,6 @@ public class Server extends ServerSocket {
             }
 
         }
-    }
-
-    public void addEndpoint(String endpoint, String method, Runnable executionMethod){
-        // return random bullshit
     }
 
 }

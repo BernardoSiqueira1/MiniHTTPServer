@@ -1,4 +1,4 @@
-package server.parser.request;
+package server.iohandlers.request;
 
 import server.model.request.RequestHeaders;
 

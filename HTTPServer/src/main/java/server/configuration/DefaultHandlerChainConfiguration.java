@@ -1,10 +1,10 @@
     package server.configuration;
 
-    import server.handler.DispatchServiceHandler;
-    import server.handler.LogActivityHandler;
-    import server.handler.RequestHandler;
+    import server.filterhandlers.LogActivityHandler;
+    import server.filterhandlers.RequestHandler;
 
-    public class DefaultHandlerChainConfiguration extends HandlerChainConfiguration {
+    public final class DefaultHandlerChainConfiguration extends HandlerChainConfiguration {
+
         /**
          * <p>
          * Provides a default http process chain to deal with client requests
@@ -18,7 +18,8 @@
         public static DefaultHandlerChainConfiguration getDefaultChainConfiguration(){
             return new DefaultHandlerChainConfiguration(
                     new LogActivityHandler(),
-                    new DispatchServiceHandler()
+                    new LogActivityHandler(),
+                    new LogActivityHandler()
             );
         }
 

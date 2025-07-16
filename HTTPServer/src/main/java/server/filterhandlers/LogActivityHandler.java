@@ -1,12 +1,11 @@
-package server.handler;
+package server.filterhandlers;
 
 import server.model.request.ClientRequestObject;
-import server.model.response.ClientResponseObject;
 
 public final class LogActivityHandler implements RequestHandler {
 
     @Override
-    public void handleRequest(ClientRequestObject clientRequestObject, ClientResponseObject clientResponseObject) {
+    public void handleRequest(ClientRequestObject clientRequestObject) {
         System.out.println("Passou por aqui, só para testar por enquanto.");
     }
 
