@@ -1,11 +1,11 @@
 package server.httpchain;
 
+import server.iohandlers.response.ResponseSerializer;
 import server.model.response.ClientResponseObject;
 import server.configuration.HandlerChainConfiguration;
 import server.filterhandlers.RequestHandler;
 import server.model.request.ClientRequestObject;
 import server.iohandlers.request.RequestParser;
-import server.iohandlers.response.ResponseFormatter;
 import server.service.RequestServiceDispatcher;
 
 import java.io.IOException;
@@ -15,8 +15,6 @@ import java.util.List;
 public final class HTTPHandlerChain implements Runnable {
 
     private final Socket clientConnection;
-    private final RequestParser requestParser = new RequestParser();
-    private final ResponseFormatter responseFormatter = new ResponseFormatter();
     private final RequestServiceDispatcher serviceDispatcher;
     private final List<RequestHandler> httpHandlersList;
 
@@ -29,17 +27,19 @@ public final class HTTPHandlerChain implements Runnable {
     @Override
     public void run() {
 
+        ClientRequestObject clientRequestObject = null;
+        ClientResponseObject clientResponseObject = null;
+
         try {
 
-            ClientRequestObject clientRequestObject = requestParser.parse(clientConnection.getInputStream());
-            ClientResponseObject clientResponseObject = null;
+            RequestParser.parse(clientConnection.getInputStream());
 
             for (RequestHandler handler: httpHandlersList){
                 handler.handleRequest(clientRequestObject);
             }
 
             serviceDispatcher.dispatch(clientRequestObject, clientResponseObject);
-            ResponseFormatter.format(clientResponseObject);
+            ResponseSerializer.format(clientResponseObject);
 
         }
         catch (IOException ioException){
