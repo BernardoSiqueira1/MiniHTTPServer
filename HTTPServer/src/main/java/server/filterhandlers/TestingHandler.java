@@ -2,7 +2,7 @@ package server.filterhandlers;
 
 import server.model.request.ClientRequestObject;
 
-public final class LogActivityHandler implements RequestHandler {
+public final class TestingHandler implements RequestHandler {
 
     @Override
     public void handleRequest(ClientRequestObject clientRequestObject) {
