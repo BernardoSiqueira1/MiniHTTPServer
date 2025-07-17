@@ -12,7 +12,7 @@ public final class RequestServiceDispatcher {
     }
 
     public void dispatch(ClientRequestObject clientRequestObject, ClientResponseObject clientResponseObject) {
-        dispatcherService.execute();
+        dispatcherService.execute(clientRequestObject, clientResponseObject);
     }
 
 }
