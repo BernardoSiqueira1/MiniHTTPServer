@@ -1,5 +1,6 @@
 package server.httpchain;
 
+import server.iohandlers.response.ResponseSender;
 import server.iohandlers.response.ResponseSerializer;
 import server.model.response.ClientResponseObject;
 import server.configuration.HandlerChainConfiguration;
@@ -29,6 +30,7 @@ public final class HTTPHandlerChain implements Runnable {
 
         ClientRequestObject clientRequestObject = null;
         ClientResponseObject clientResponseObject = null;
+        String serializedResponse = "";
 
         try {
 
@@ -39,11 +41,15 @@ public final class HTTPHandlerChain implements Runnable {
             }
 
             serviceDispatcher.dispatch(clientRequestObject, clientResponseObject);
-            ResponseSerializer.format(clientResponseObject);
+            serializedResponse = ResponseSerializer.format(clientResponseObject);
+            ResponseSender.sendToClient(clientConnection, serializedResponse);
 
         }
+
         catch (IOException ioException){
+
             System.out.println(ioException.getMessage());
+
         }
 
     }
