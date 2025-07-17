@@ -1,6 +1,5 @@
     package server.configuration;
 
-    import server.filterhandlers.LogActivityHandler;
     import server.filterhandlers.RequestHandler;
 
     public final class DefaultHandlerChainConfiguration extends HandlerChainConfiguration {
@@ -17,9 +16,7 @@
 
         public static DefaultHandlerChainConfiguration getDefaultChainConfiguration(){
             return new DefaultHandlerChainConfiguration(
-                    new LogActivityHandler(),
-                    new LogActivityHandler(),
-                    new LogActivityHandler()
+
             );
         }
 
