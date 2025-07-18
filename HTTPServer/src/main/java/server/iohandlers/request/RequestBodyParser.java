@@ -11,7 +11,7 @@ public final class RequestBodyParser {
             return new RequestBody(body);
         }
         catch (ArrayIndexOutOfBoundsException exception){
-            return new RequestBody(null);
+            return new RequestBody(" ");
         }
     }
 
