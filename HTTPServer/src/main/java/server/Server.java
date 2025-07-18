@@ -2,7 +2,7 @@ package server;
 
 import server.configuration.HandlerChainConfiguration;
 import server.httpchain.HTTPHandlerChain;
-import server.service.RequestServiceDispatcher;
+import server.service.ServiceDispatcherConfiguration;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,7 +11,7 @@ import java.net.Socket;
 public final class Server extends ServerSocket {
 
     private HandlerChainConfiguration handlerChainConfiguration;
-    private RequestServiceDispatcher requestServiceDispatcher;
+    private ServiceDispatcherConfiguration serviceDispatcherConfiguration;
     private final int applicationPort;
 
     public Server(int applicationPort) throws IOException {
@@ -23,8 +23,8 @@ public final class Server extends ServerSocket {
         this.handlerChainConfiguration = handlerChainConfiguration;
     }
 
-    public void setServiceDispatcher(RequestServiceDispatcher requestServiceDispatcher){
-        this.requestServiceDispatcher = requestServiceDispatcher;
+    public void setServiceDispatcher(ServiceDispatcherConfiguration serviceDispatcherConfiguration){
+        this.serviceDispatcherConfiguration = serviceDispatcherConfiguration;
     }
 
     public void listen() {
@@ -34,7 +34,7 @@ public final class Server extends ServerSocket {
 
             try {
                 Socket clientConnection = this.accept();
-                new Thread(new HTTPHandlerChain(handlerChainConfiguration, requestServiceDispatcher, clientConnection)).start();
+                new Thread(new HTTPHandlerChain(handlerChainConfiguration, serviceDispatcherConfiguration, clientConnection)).start();
             }
 
             catch (IOException ioException){

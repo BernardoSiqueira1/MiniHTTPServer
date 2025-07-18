@@ -7,7 +7,7 @@ import server.configuration.HandlerChainConfiguration;
 import server.filterhandlers.RequestHandler;
 import server.model.request.ClientRequestObject;
 import server.iohandlers.request.RequestParser;
-import server.service.RequestServiceDispatcher;
+import server.service.ServiceDispatcherConfiguration;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -16,13 +16,13 @@ import java.util.List;
 public final class HTTPHandlerChain implements Runnable {
 
     private final Socket clientConnection;
-    private final RequestServiceDispatcher serviceDispatcher;
+    private final ServiceDispatcherConfiguration serviceDispatcher;
     private final List<RequestHandler> httpHandlersList;
 
-    public HTTPHandlerChain(HandlerChainConfiguration HandlerChainConfiguration, RequestServiceDispatcher requestServiceDispatcher, Socket clientConnection){
+    public HTTPHandlerChain(HandlerChainConfiguration HandlerChainConfiguration, ServiceDispatcherConfiguration serviceDispatcherConfiguration, Socket clientConnection){
         this.clientConnection = clientConnection;
         this.httpHandlersList = HandlerChainConfiguration.getRequestHandlerList();
-        this.serviceDispatcher = requestServiceDispatcher;
+        this.serviceDispatcher = serviceDispatcherConfiguration;
     }
 
     @Override
@@ -34,14 +34,15 @@ public final class HTTPHandlerChain implements Runnable {
 
         try {
 
-            RequestParser.parse(clientConnection.getInputStream());
+            clientRequestObject = RequestParser.parse(clientConnection.getInputStream());
 
             for (RequestHandler handler: httpHandlersList){
                 handler.handleRequest(clientRequestObject);
             }
 
-            serviceDispatcher.dispatch(clientRequestObject, clientResponseObject);
+            clientResponseObject = serviceDispatcher.dispatch(clientRequestObject);
             serializedResponse = ResponseSerializer.format(clientResponseObject);
+
             ResponseSender.sendToClient(clientConnection, serializedResponse);
 
         }

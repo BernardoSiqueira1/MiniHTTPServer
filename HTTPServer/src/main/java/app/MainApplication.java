@@ -9,6 +9,14 @@ import java.io.IOException;
 public class MainApplication {
 
     public static void main(String[] args) throws IOException {
+
+        HandlerChainConfiguration handlerChainConfiguration = DefaultHandlerChainConfiguration.getDefaultChainConfiguration();
+
+        Server server = new Server(8080);
+        server.setHandlerChainConfiguration(handlerChainConfiguration);
+
+        server.listen();
+
     }
 
 }
