@@ -10,6 +10,7 @@ import java.util.Map;
 public final class ResponseSerializer{
 
     public static String format(ClientResponseObject clientResponseObject) {
+
         ResponseLine line = clientResponseObject.responseLine();
         ResponseHeaders headers = clientResponseObject.responseHeaders();
         ResponseBody body = clientResponseObject.responseBody();
@@ -22,11 +23,18 @@ public final class ResponseSerializer{
                 .append(line.responseMessage())
                 .append("\r\n");
 
-        for (Map.Entry<String, String> entry : headers.headers().entrySet()) {
-            responseBuilder.append(entry.getKey())
-                    .append(": ")
-                    .append(entry.getValue())
-                    .append("\r\n");
+        if (headers.headers() != null){
+            for (Map.Entry<String, String> entry : headers.headers().entrySet()) {
+                responseBuilder.append(entry.getKey())
+                        .append(": ")
+                        .append(entry.getValue())
+                        .append("\r\n");
+            }
+        }
+
+        else {
+            responseBuilder.append(" ")
+                           .append("\r\n");
         }
 
         responseBuilder.append("\r\n");
@@ -37,4 +45,5 @@ public final class ResponseSerializer{
     }
 
 
+    //TODO - Modularizar esse serializador, fiz ele na pressa.
 }
