@@ -44,7 +44,6 @@ public final class HTTPHandlerChain implements Runnable {
             serializedResponse = ResponseSerializer.format(clientResponseObject);
 
             ResponseSender.sendToClient(clientConnection, serializedResponse);
-
         }
 
         catch (IOException ioException){
