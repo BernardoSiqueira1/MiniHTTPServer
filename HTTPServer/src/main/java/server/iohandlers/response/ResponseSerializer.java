@@ -32,11 +32,6 @@ public final class ResponseSerializer{
             }
         }
 
-        else {
-            responseBuilder.append(" ")
-                           .append("\r\n");
-        }
-
         responseBuilder.append("\r\n");
 
         responseBuilder.append(body.responseBody());
