@@ -17,7 +17,7 @@
 
         public static DefaultHandlerChainConfiguration getDefaultChainConfiguration(){
             return new DefaultHandlerChainConfiguration(
-                new VerifyRequestObjectHandler()
+                //new VerifyRequestObjectHandler()
             );
         }
 
