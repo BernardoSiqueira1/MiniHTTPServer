@@ -1,27 +1,28 @@
 package server.iohandlers.response;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public final class ResponseSender {
 
     public static void sendToClient(Socket clientConnection, String serializedResponse){
-        try{
-            OutputStream socketOutputStream = clientConnection.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socketOutputStream));
 
-            bufferedWriter.write(serializedResponse);
-            bufferedWriter.flush();
-            bufferedWriter.close();
+        try{
+            OutputStream outputStream = clientConnection.getOutputStream();
+
+            outputStream.write(serializedResponse.getBytes(StandardCharsets.ISO_8859_1));
+            outputStream.flush();
+            outputStream.close();
+
+            clientConnection.close();
         }
+
         catch (IOException ioException){
-            System.out.println(String
-                    .format("Failed to return to client.\n %s", (Object) clientConnection.getInetAddress().getAddress())
-            );
+            System.out.println("Failed to return to client");
+            ioException.printStackTrace();
         }
+
     }
 
 }
