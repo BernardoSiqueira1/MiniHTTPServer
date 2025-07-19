@@ -34,6 +34,7 @@ public final class Server extends ServerSocket {
 
             try {
                 Socket clientConnection = this.accept();
+
                 new Thread(new HTTPHandlerChain(handlerChainConfiguration, serviceDispatcherConfiguration, clientConnection)).start();
             }
 
