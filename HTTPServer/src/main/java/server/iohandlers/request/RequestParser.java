@@ -5,8 +5,10 @@ import server.model.request.RequestBody;
 import server.model.request.RequestHeaders;
 import server.model.request.RequestLine;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public final class RequestParser {
@@ -14,17 +16,18 @@ public final class RequestParser {
 
     public static ClientRequestObject parse(InputStream clientInputStream) throws IOException {
 
+        String currentLine = "";
         StringBuilder fullRequest = new StringBuilder();
-        Scanner inputScanner = new Scanner(clientInputStream).useDelimiter("\\A");
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientInputStream));
 
-        while (inputScanner.hasNext()){
-            try {
-                fullRequest.append(inputScanner.next());
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
+        while (true){
+            currentLine = inputReader.readLine();
+
+            if (currentLine == null || currentLine.isEmpty()){
                 break;
             }
+
+            fullRequest.append(currentLine);
         }
 
         RequestLine requestLine = RequestLineParser.parse(fullRequest.toString());
