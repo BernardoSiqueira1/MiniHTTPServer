@@ -16,23 +16,28 @@ public final class RequestParser {
 
     public static ClientRequestObject parse(InputStream clientInputStream) throws IOException {
 
-        String currentLine = "";
+        int currentChar;
         StringBuilder fullRequest = new StringBuilder();
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientInputStream));
 
         while (true){
-            currentLine = inputReader.readLine();
+            currentChar = inputReader.read();
 
-            if (currentLine == null || currentLine.isEmpty()){
+            if (currentChar != -1){
+                fullRequest.append((char) currentChar);
+            }
+
+            else {
                 break;
             }
 
-            fullRequest.append(currentLine);
         }
 
         RequestLine requestLine = RequestLineParser.parse(fullRequest.toString());
         RequestHeaders requestHeaders = RequestHeaderParser.parse(fullRequest.toString());
         RequestBody requestBody = RequestBodyParser.parse(fullRequest.toString());
+
+        System.out.println(requestLine.queryParams());
 
         return new ClientRequestObject(requestLine, requestHeaders, requestBody);
     }

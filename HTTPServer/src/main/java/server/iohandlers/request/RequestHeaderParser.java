@@ -2,6 +2,7 @@ package server.iohandlers.request;
 
 import server.model.request.RequestHeaders;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public final class RequestHeaderParser {
@@ -9,26 +10,20 @@ public final class RequestHeaderParser {
     public static RequestHeaders parse(String fullRequest){
         HashMap<String, String> requestHeadersMap = new HashMap<>();
 
-        try{
-            String[] requestHeaders = getRequestHeaders(fullRequest);
+        String[] requestHeaders = getRequestHeaders(fullRequest);
+        System.out.println(Arrays.toString(requestHeaders));
 
-            for (String header : requestHeaders){
+        for (String header : requestHeaders){
 
-                try{
-                    String[] headerKeyValuePair = header.split(":");
-                    requestHeadersMap.put(headerKeyValuePair[0], headerKeyValuePair[1]);
-                }
-
-                catch (ArrayIndexOutOfBoundsException exception){
-                    continue;
-                }
-
-                //TODO - Encontrar um jeito melhor de lidar com valores nulos.
+            try{
+                String[] headerKeyValuePair = header.strip().split(":");
+                requestHeadersMap.put(headerKeyValuePair[0], headerKeyValuePair[1]);
             }
-        }
 
-        catch (ArrayIndexOutOfBoundsException exception){
-            return null;
+            catch (ArrayIndexOutOfBoundsException exception) {
+                continue; // ignore malformed headers
+            }
+
         }
 
         return new RequestHeaders(requestHeadersMap);

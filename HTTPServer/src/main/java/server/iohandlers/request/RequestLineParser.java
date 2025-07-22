@@ -9,7 +9,7 @@ public final class RequestLineParser {
     public static RequestLine parse(String fullRequest){
 
         String requestMethod, fullPath, httpVersion, clearPath, joinedQueryParams;
-        HashMap<String,String> queryParams = new HashMap<>();
+        HashMap<String,String> queryParams;
 
         String[] fullRequestLine = fullRequest.split("\n")[0].split(" ");
 
@@ -20,6 +20,11 @@ public final class RequestLineParser {
 
         queryParams = extractQueryParams(fullPath);
 
+        System.out.println(requestMethod);
+        System.out.println(fullPath);
+        System.out.println(clearPath);
+        System.out.println(httpVersion);
+        System.out.println(queryParams);
 
         return new RequestLine(httpVersion, fullPath, clearPath, requestMethod, queryParams, null);
     }
@@ -27,11 +32,9 @@ public final class RequestLineParser {
     private static String extractRequestMethod(String[] fullRequestLine){
         return fullRequestLine[0];
     }
-
     private static String extractFullRequestPath(String[] fullRequestLine){
         return fullRequestLine[1];
     }
-
     private static String extractClearPath(String fullRequestPath){
     return fullRequestPath.split("\\?")[0];
     }
@@ -41,7 +44,7 @@ public final class RequestLineParser {
         String[] arrayOfQueryParams;
 
         try {
-            arrayOfQueryParams = fullRequestPath.split("\\?")[1].split("&");
+            arrayOfQueryParams = fullRequestPath.strip().split("\\?")[1].split("&"); // ex. query1=2 '&' query2=3
         }
 
         catch(ArrayIndexOutOfBoundsException exception) {
@@ -50,19 +53,12 @@ public final class RequestLineParser {
 
         for (String queryParam : arrayOfQueryParams) {
 
-            String[] keyValuePair = queryParam.split("=");
+            String[] keyValuePair = queryParam.split("=", 2);
 
-            try {
-                queryParams.put(keyValuePair[0], keyValuePair[1]);
-            }
+            queryParams.put(keyValuePair[0], keyValuePair[1]);
 
-            catch (ArrayIndexOutOfBoundsException exception) {
-                continue;
-            }
-            //TODO - Encontrar um jeito melhor de lidar com valores nulos.
         }
 
-        System.out.println(queryParams);
         return queryParams;
     }
 
