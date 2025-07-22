@@ -1,7 +1,6 @@
     package server.configuration;
 
     import server.filterhandlers.RequestHandler;
-    import server.filterhandlers.VerifyRequestObjectHandler;
 
     public final class DefaultHandlerChainConfiguration extends HandlerChainConfiguration {
 
@@ -17,7 +16,7 @@
 
         public static DefaultHandlerChainConfiguration getDefaultChainConfiguration(){
             return new DefaultHandlerChainConfiguration(
-                //new VerifyRequestObjectHandler()
+
             );
         }
 
