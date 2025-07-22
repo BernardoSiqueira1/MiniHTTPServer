@@ -12,7 +12,7 @@ import java.net.Socket;
 public final class HTTPRequestPipeline implements Runnable {
 
     private final Socket clientConnection;
-    //private final List<RequestHandler> httpHandlersList;
+    //private final List<RequestHandler> httpHandlersList; // Deactivated until i find a way to refactor this.
 
     public HTTPRequestPipeline(Socket clientConnection){
         this.clientConnection = clientConnection;
