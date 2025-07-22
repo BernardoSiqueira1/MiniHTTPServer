@@ -1,8 +1,8 @@
 package server;
 
 import server.configuration.HandlerChainConfiguration;
-import server.httpchain.HTTPHandlerChain;
-import server.service.ServiceDispatcherConfiguration;
+import server.httpchain.HTTPRequestPipeline;
+import server.service.ThirdPartyDispatcher;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,8 +10,7 @@ import java.net.Socket;
 
 public final class Server extends ServerSocket {
 
-    private HandlerChainConfiguration handlerChainConfiguration;
-    private ServiceDispatcherConfiguration serviceDispatcherConfiguration;
+    // private HandlerChainConfiguration handlerChainConfiguration;
     private final int applicationPort;
 
     public Server(int applicationPort) throws IOException {
@@ -19,13 +18,9 @@ public final class Server extends ServerSocket {
         this.applicationPort = applicationPort;
     }
 
-    public void setHandlerChainConfiguration(HandlerChainConfiguration handlerChainConfiguration){
-        this.handlerChainConfiguration = handlerChainConfiguration;
-    }
-
-    public void setServiceDispatcher(ServiceDispatcherConfiguration serviceDispatcherConfiguration){
-        this.serviceDispatcherConfiguration = serviceDispatcherConfiguration;
-    }
+    //public void setHandlerChainConfiguration(HandlerChainConfiguration handlerChainConfiguration){
+    //    this.handlerChainConfiguration = handlerChainConfiguration;
+    //}
 
     public void listen() {
         System.out.println(String.format("Starting server at port %d", applicationPort));
@@ -35,7 +30,7 @@ public final class Server extends ServerSocket {
             try {
                 Socket clientConnection = this.accept();
 
-                new Thread(new HTTPHandlerChain(handlerChainConfiguration, serviceDispatcherConfiguration, clientConnection)).start();
+                new Thread(new HTTPRequestPipeline(clientConnection)).start();
             }
 
             catch (IOException ioException){

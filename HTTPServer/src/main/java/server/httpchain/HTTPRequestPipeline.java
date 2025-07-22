@@ -34,10 +34,8 @@ public final class HTTPRequestPipeline implements Runnable {
             ResponseSender.sendToClient(clientConnection, serializedResponse);
         }
 
-        catch (Exception exception){
-
+        catch (Exception exception) {
             System.out.println(exception.getMessage());
-
         }
 
     }
