@@ -5,9 +5,9 @@ import server.model.request.RequestHeaders;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public final class RequestHeaderParser {
+final class RequestHeaderParser {
 
-    public static RequestHeaders parse(String fullRequest){
+    static RequestHeaders parse(String fullRequest){
         HashMap<String, String> requestHeadersMap = new HashMap<>();
 
         String[] requestHeaders = getRequestHeaders(fullRequest);

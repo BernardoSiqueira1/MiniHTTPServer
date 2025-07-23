@@ -4,9 +4,9 @@ import server.model.request.RequestLine;
 
 import java.util.HashMap;
 
-public final class RequestLineParser {
+final class RequestLineParser {
 
-    public static RequestLine parse(String fullRequest){
+    static RequestLine parse(String fullRequest){
 
         String requestMethod, fullPath, httpVersion, clearPath, joinedQueryParams;
         HashMap<String,String> queryParams;
