@@ -27,14 +27,16 @@ public final class HTTPRequestPipeline implements Runnable {
         String serializedResponse = "";
 
         try {
+
             clientRequestObject = RequestParser.parse(clientConnection.getInputStream());
-
             clientResponseObject = ThirdPartyDispatcher.callService(clientRequestObject);
+
             serializedResponse = ResponseSerializer.serialize(clientResponseObject);
-
             ResponseSender.sendToClient(clientConnection, serializedResponse);
-        }
 
+            clientConnection.close();
+
+        }
         catch (Exception exception) {
             ServerLog.log(exception.getMessage());
         }
