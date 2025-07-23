@@ -37,8 +37,6 @@ public final class RequestParser {
         RequestHeaders requestHeaders = RequestHeaderParser.parse(fullRequest.toString());
         RequestBody requestBody = RequestBodyParser.parse(fullRequest.toString());
 
-        System.out.println(requestLine.queryParams());
-
         return new ClientRequestObject(requestLine, requestHeaders, requestBody);
     }
 
