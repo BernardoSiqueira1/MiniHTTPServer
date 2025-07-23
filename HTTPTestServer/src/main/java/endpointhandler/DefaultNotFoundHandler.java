@@ -16,8 +16,8 @@ public class DefaultNotFoundHandler {
 
 
         ResponseLine responseLine = new ResponseLine(404, "NOT FOUND", "HTTP/1.1");
-        ResponseHeaders responseHeaders = new ResponseHeaders(null);
-        ResponseBody responseBody = new ResponseBody("<body><h2>Requested endpoint not found.</h2></body>");
+        ResponseHeaders responseHeaders = new ResponseHeaders(headers);
+        ResponseBody responseBody = new ResponseBody("<body><h2>404 - Requested endpoint not found.</h2></body>");
 
         return new ClientResponseObject(responseLine,responseHeaders,responseBody);
     }

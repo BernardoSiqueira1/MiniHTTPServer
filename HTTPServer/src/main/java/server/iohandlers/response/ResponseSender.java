@@ -1,5 +1,7 @@
 package server.iohandlers.response;
 
+import server.exceptions.FailedToSendResponseException;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -13,12 +15,10 @@ public final class ResponseSender {
 
             outputStream.write(serializedResponse.getBytes(StandardCharsets.ISO_8859_1));
             outputStream.flush();
-            outputStream.close();
         }
 
         catch (IOException ioException){
-            System.out.println("Failed to return to client");
-            ioException.printStackTrace();
+            throw new FailedToSendResponseException();
         }
 
     }

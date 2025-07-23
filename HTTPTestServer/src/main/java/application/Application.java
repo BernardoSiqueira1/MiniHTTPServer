@@ -4,10 +4,10 @@ import configuration.EndpointRouterConfiguration;
 import endpointhandler.GetMessageHandler;
 import router.ApplicationEndpointRouter;
 import server.Server;
+import server.service.ThirdPartyDispatcher;
 
 import java.io.IOException;
 
-import static configuration.ApplicationServer.getServer;
 
 public class Application {
 
@@ -17,8 +17,10 @@ public class Application {
         endpointRouterConfiguration.setNewEndpoint("/getMessage", GetMessageHandler::getMessageEndpoint);
 
         ApplicationEndpointRouter endpointRouter = new ApplicationEndpointRouter(endpointRouterConfiguration);
+        ThirdPartyDispatcher.setThirdPartyService(endpointRouter);
 
-        Server httpServer = getServer(endpointRouter);
+        Server httpServer = new Server(8081);
+
         httpServer.listen();
 
         System.out.println("Aplicação iniciada.");

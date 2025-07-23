@@ -8,7 +8,9 @@ import server.model.request.ClientRequestObject;
 import server.iohandlers.request.RequestParser;
 import server.service.ThirdPartyDispatcher;
 
+import java.io.IOException;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 public final class HTTPRequestPipeline implements Runnable {
 
@@ -34,11 +36,23 @@ public final class HTTPRequestPipeline implements Runnable {
             serializedResponse = ResponseSerializer.serialize(clientResponseObject);
             ResponseSender.sendToClient(clientConnection, serializedResponse);
 
-            clientConnection.close();
-
         }
+
         catch (Exception exception) {
             ServerLog.log(exception.getMessage());
+        }
+
+        finally {
+
+            try {
+                ServerLog.log("Finished processing pipeline, closing connection...");
+                clientConnection.close();
+            }
+
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
     }

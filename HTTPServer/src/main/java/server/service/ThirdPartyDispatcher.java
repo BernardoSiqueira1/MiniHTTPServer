@@ -1,6 +1,6 @@
 package server.service;
 
-import server.exceptions.ThirdPartyServiceNotSetup;
+import server.exceptions.ThirdPartyServiceNotSetupException;
 import server.model.request.ClientRequestObject;
 import server.model.response.ClientResponseObject;
 
@@ -19,7 +19,7 @@ public final class ThirdPartyDispatcher {
         }
 
         catch (NullPointerException exception) { // Service was not set up
-            throw new ThirdPartyServiceNotSetup();
+            throw new ThirdPartyServiceNotSetupException();
         }
 
     }

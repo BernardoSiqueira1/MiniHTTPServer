@@ -4,11 +4,11 @@ import configuration.EndpointRouterConfiguration;
 import endpointhandler.DefaultNotFoundHandler;
 import server.model.request.ClientRequestObject;
 import server.model.response.ClientResponseObject;
-import server.service.DispatcherService;
+import server.service.ThirdPartyService;
 
 import java.util.function.Function;
 
-public final class ApplicationEndpointRouter implements DispatcherService {
+public final class ApplicationEndpointRouter implements ThirdPartyService {
 
     private EndpointRouterConfiguration endpointRouterConfiguration;
 
@@ -18,6 +18,8 @@ public final class ApplicationEndpointRouter implements DispatcherService {
 
     @Override
     public ClientResponseObject execute(ClientRequestObject clientRequestObject) {
+
+        // System.out.println(clientRequestObject.requestLine().fullPath());
         
         String clearPath = clientRequestObject.requestLine().clearPath();
         Function<ClientRequestObject, ClientResponseObject> routeHandler = endpointRouterConfiguration
@@ -32,7 +34,5 @@ public final class ApplicationEndpointRouter implements DispatcherService {
             return DefaultNotFoundHandler.endpointNotFound(clientRequestObject);
         }
 
-        // Isso não cobre possíveis erros de processamento dentro da função ou outras exceções que podem acontecer
-        // mas é um teste simples, vou deixar assim
     }
 }

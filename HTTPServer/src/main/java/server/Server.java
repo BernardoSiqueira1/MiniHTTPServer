@@ -23,7 +23,8 @@ public final class Server extends ServerSocket {
 
         while (true) {
 
-            try(Socket clientConnection = this.accept()) {
+            try {
+                Socket clientConnection = this.accept();
                 new Thread(new HTTPRequestPipeline(clientConnection)).start();
             }
 
