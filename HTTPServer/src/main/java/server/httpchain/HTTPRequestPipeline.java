@@ -1,5 +1,6 @@
 package server.httpchain;
 
+import server.logging.ServerLog;
 import server.iohandlers.response.ResponseSender;
 import server.iohandlers.response.ResponseSerializer;
 import server.model.response.ClientResponseObject;
@@ -35,7 +36,7 @@ public final class HTTPRequestPipeline implements Runnable {
         }
 
         catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            ServerLog.log(exception.getMessage());
         }
 
     }
