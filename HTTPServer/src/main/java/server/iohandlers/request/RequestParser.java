@@ -16,15 +16,16 @@ public final class RequestParser {
 
     public static ClientRequestObject parse(InputStream clientInputStream) throws IOException {
 
-        int currentChar;
+        String currentLine;
         StringBuilder fullRequest = new StringBuilder();
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(clientInputStream));
 
         while (true){
-            currentChar = inputReader.read();
 
-            if (currentChar != -1){
-                fullRequest.append((char) currentChar);
+            currentLine = inputReader.readLine();
+
+            if (!currentLine.isEmpty()){
+                fullRequest.append(currentLine + "\r\n");
             }
 
             else {
