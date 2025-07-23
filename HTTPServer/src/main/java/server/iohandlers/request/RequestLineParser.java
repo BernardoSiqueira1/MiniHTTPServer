@@ -20,12 +20,6 @@ final class RequestLineParser {
 
         queryParams = extractQueryParams(fullPath);
 
-        System.out.println(requestMethod);
-        System.out.println(fullPath);
-        System.out.println(clearPath);
-        System.out.println(httpVersion);
-        System.out.println(queryParams);
-
         return new RequestLine(httpVersion, fullPath, clearPath, requestMethod, queryParams, null);
     }
 
