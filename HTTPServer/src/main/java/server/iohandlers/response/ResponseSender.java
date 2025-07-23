@@ -14,8 +14,6 @@ public final class ResponseSender {
             outputStream.write(serializedResponse.getBytes(StandardCharsets.ISO_8859_1));
             outputStream.flush();
             outputStream.close();
-
-            clientConnection.close();
         }
 
         catch (IOException ioException){
