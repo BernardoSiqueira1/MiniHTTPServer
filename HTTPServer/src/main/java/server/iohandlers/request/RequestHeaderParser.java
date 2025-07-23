@@ -11,7 +11,6 @@ final class RequestHeaderParser {
         HashMap<String, String> requestHeadersMap = new HashMap<>();
 
         String[] requestHeaders = getRequestHeaders(fullRequest);
-        System.out.println(Arrays.toString(requestHeaders));
 
         for (String header : requestHeaders){
 
