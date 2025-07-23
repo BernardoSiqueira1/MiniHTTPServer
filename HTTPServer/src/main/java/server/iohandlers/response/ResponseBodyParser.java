@@ -1,4 +1,17 @@
 package server.iohandlers.response;
 
-public class ResponseBodyParser {
+import server.model.response.ClientResponseObject;
+import server.model.response.ResponseBody;
+import server.model.response.ResponseLine;
+
+final class ResponseBodyParser {
+
+    static StringBuilder serialize(StringBuilder responseString, ClientResponseObject clientResponseObject){
+
+        ResponseBody body = clientResponseObject.responseBody();
+
+        return responseString.append(body.responseBody());
+
+    }
+
 }
