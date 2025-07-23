@@ -13,7 +13,7 @@ import java.net.Socket;
 public final class HTTPRequestPipeline implements Runnable {
 
     private final Socket clientConnection;
-    //private final List<RequestHandler> httpHandlersList; // Deactivated until i find a way to refactor this.
+    // private final List<RequestHandler> httpHandlersList; // Deactivated until i find a way to refactor this.
 
     public HTTPRequestPipeline(Socket clientConnection){
         this.clientConnection = clientConnection;
@@ -30,7 +30,7 @@ public final class HTTPRequestPipeline implements Runnable {
             clientRequestObject = RequestParser.parse(clientConnection.getInputStream());
 
             clientResponseObject = ThirdPartyDispatcher.callService(clientRequestObject);
-            serializedResponse = ResponseSerializer.format(clientResponseObject);
+            serializedResponse = ResponseSerializer.serialize(clientResponseObject);
 
             ResponseSender.sendToClient(clientConnection, serializedResponse);
         }
